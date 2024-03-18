@@ -9,11 +9,6 @@ o banco de dados. Podemos ter multiplas sessions
 e cada session e independente da outra.
 '''
 
-'''
-Tutorial: Como fazer INSERT INTO de dados numa tabela
-'''
-
-# 1. crie uma session
 def retornaSession():
     USUARIO = 'root'
     SENHA = 'root'
@@ -29,7 +24,11 @@ def retornaSession():
 
 session = retornaSession()
 
-# 2. instancie uma classe tabela
+'''
+Tutorial: Como fazer INSERT INTO de dados numa tabela
+'''
+
+# 1. instancie uma classe tabela
 x = Pessoa(nome='João',
            usuario='joao',
            senha='1234'
@@ -38,11 +37,11 @@ x = Pessoa(nome='João',
 y = Pessoa(usuario='marcos',
            senha='padrao')
 
-# 3. adicione-a a session e faça o commit
+# 2. adicione-a a session e faça o commit
 
-# session.add(x) -> para um único insert
-# session.add_all([ x, y ]) -> múltiplos inserts
-# session.commit() -> não esqueça de fazer o commit
+session.add(x) # -> para um único insert
+session.add_all([ x, y ]) # -> múltiplos inserts
+session.commit() # -> não esqueça de fazer o commit
 
 # CASO queira fazer uma limpeza da session use o comando:
 # session.rollback()
@@ -72,4 +71,15 @@ x = session.query(Pessoa).filter(Pessoa.id == 12).all()
 x[0].nome = 'bruno'
 # 3 - faça o commit
 session.commit()
+
+''''
+Tutorial de como fazer DELETE 
+'''
+# 1 - filtre o objeto pessoa
+x = session.query(Pessoa).filter(Pessoa.id == 12).all() # alternativa: .one() -> trará apenas uma instancia
+# 2 - delete
+session.delete(x[0]) # se usar o one() só precisará passar x
+# 3 - commmit
+session.commit()
+
 

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -16,11 +16,24 @@ session = Session()
 Base = declarative_base()
 
 class Pessoa(Base):
-    __tablename__ = 'Pessoa'
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'pessoa'
+    id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50))
     usuario = Column(String(20))
     senha = Column(String(10))
+
+class Categoria(Base):
+    __tablename__ = 'categoria'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(20))
+
+class Produto(Base):
+    __tablename__ = 'produto'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(50))
+    idCategoria = Column(Integer, ForeignKey('categoria.id'))
+
+
 
 # cria as tabelas no banco de dados
 Base.metadata.create_all(engine)
